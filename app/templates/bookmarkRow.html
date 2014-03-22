@@ -1,0 +1,26 @@
+<tbody>
+<tr ng-if="!inEditMode">
+	<td>[[ num+1 ]].</td>
+	<td><a href="[[ bookmark.link ]]" target="_blank"><span class="title">[[ bookmark.title ]]</span></a></td>
+	<td><span class="rating-widget" static-rating="[[ bookmark.stars ]]"></span></td>
+	<td>[[ bookmark.group_id ]] </td>
+	<td><span class="myBtn flatblue" ng-click="toggleEditMode()"><i class="fa fa-edit fa-lg"></i></span></td>
+	<td><span class="myBtn red"><i class="fa fa-trash-o"></i></span></td>
+</tr>
+<tr ng-if="inEditMode">
+	<td><span class="fa fa-cog fa-lg fa-spin"></span></td>
+	<td><input class="form-control input-sm" type="text" ng-model="bookmark.title"></td>
+	<td><span class="rating-widget" editable-rating="bookmark.stars"></span></td>
+	<td>[[ bookmark.group_id ]] </td>
+	<td><span class="myBtn flatblue" ng-click="toggleEditMode()"><i class="fa fa-edit fa-lg"></i></span></td>
+	<td><span class="myBtn red" ng-click="cancelEdit()"><i class="fa fa-minus-circle fa-lg"></i></span></td>
+</tr>
+<tr ng-if="inEditMode">
+	<td><span class="fa fa-link"></span></td>
+	<td><span class="link">[[ bookmark.link ]]</span></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
