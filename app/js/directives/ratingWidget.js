@@ -1,16 +1,4 @@
 'use strict';
-// bmApp.directive('bookmarkRow', function(){
-// 	return{
-// 		restrict:'A',
-// 		replace:false,
-// 		scope:{
-// 			bm:'=bookmarkRow',
-// 		},
-// 		link:function($scope, element, attrs){
-// 			console.log($scope.bm);
-// 		}
-// 	}
-// });
 
 
 bmApp.directive('staticRating', function(){
@@ -43,7 +31,7 @@ bmApp.directive('staticRating', function(){
 });
 
 bmApp.directive('editableRating', function(){
-	var starTemplate ='<span>'+ 
+	var starTemplate ='<span class="inEdit">'+ 
 					'<span class="star fa"></span>'+
 					'<span class="star fa"></span>'+
 					'<span class="star fa"></span>'+

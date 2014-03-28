@@ -1,9 +1,44 @@
 'use strict';
 
 /* Controllers */
-bmApp.controller('mainCtrl', ['$scope', function($scope){
+bmApp.controller('mainCtrl', ['$scope', 'bookmarkData', function($scope, bookmarkData){
 	$scope.hello = 'world';
-	$scope.bookmarks = [{"id":"1","title":"Reddit","link":"http:\/\/reddit.com","description":"","user_id":"1","group_id":"1","stars":"5","created_at":"2014-02-11 05:57:16","updated_at":"2014-02-14 01:27:28"},{"id":"12","title":"Youtube shayari","link":"http:\/\/www.youtube.com\/watch?v=Kk-rEmZvBQI","description":"","user_id":"1","group_id":"1","stars":"4","created_at":"2014-02-13 01:04:35","updated_at":"2014-02-14 01:28:23"},{"id":"13","title":"Layout vertical rhythm","link":"http:\/\/webdesign.tutsplus.com\/articles\/improving-layout-with-vertical-rhythm--webdesign-14070","description":"","user_id":"1","group_id":"1","stars":"3","created_at":"2014-02-13 01:05:13","updated_at":"2014-02-14 01:29:57"},{"id":"33","title":"dss","link":"ddd","description":"","user_id":"1","group_id":"1","stars":"4","created_at":"2014-02-13 19:52:48","updated_at":"2014-02-14 00:43:05"},{"id":"34","title":"cc","link":"cccc","description":"","user_id":"1","group_id":"1","stars":"5","created_at":"2014-02-13 19:53:17","updated_at":"2014-02-14 00:10:54"},{"id":"41","title":"laravelDocs","link":"http:\/\/laravel.com\/docs\/errors","description":"","user_id":"1","group_id":"1","stars":"4","created_at":"2014-02-14 00:17:43","updated_at":"2014-02-14 00:17:43"},{"id":"42","title":"laravel","link":"http:\/\/laravel.com","description":"","user_id":"1","group_id":"1","stars":"4","created_at":"2014-02-14 00:43:19","updated_at":"2014-02-14 01:25:24"},{"id":"46","title":"Guard","link":"https:\/\/github.com\/guard\/guard","description":"","user_id":"1","group_id":"1","stars":"5","created_at":"2014-02-15 18:43:11","updated_at":"2014-02-18 04:59:19"},{"id":"47","title":"Responsive Images","link":"http:\/\/mobile.smashingmagazine.com\/2014\/02\/03\/one-solution-to-responsive-images\/","description":"","user_id":"1","group_id":"1","stars":"3","created_at":"2014-02-15 18:44:09","updated_at":"2014-02-15 18:47:26"},{"id":"49","title":"Miniclip Motherload","link":"http:\/\/www.miniclip.com\/games\/motherload\/en\/","description":"","user_id":"1","group_id":"1","stars":"4","created_at":"2014-02-15 18:45:46","updated_at":"2014-02-15 18:47:22"}];
 	
+	bookmarkData.query(function(bookmarks){
+		$scope.bookmarks = bookmarks;
+	});
+
+	$scope.delRow = function(bookmark, index){
+		//bookmark.$delete();
+
+		bookmarkData.delete({id:bookmark.id})
+			.$promise.then(function(){
+				$scope.bookmarks.splice(index, 1);
+			}, function(errResponse){
+
+			});
+	};
+	$scope.addBookmark = function(){
+		$scope.bookmarks.unshift({id:'', title:'', link:'', description:'', user_id:'', group_id:'', stars:'', created_at:'', updated_at:''});
+	};
+	/* saves or updates depending on whether or not id exists */
+	/* id does not exist on create since it's returned from server after a bookmark is created */
+	$scope.saveRow = function(bookmark)
+	{
+		if(bookmark.id === "")
+		{
+			bookmarkData.save(bookmark).$promise.then(function(data){
+				
+				//so that the other fields like created/updated etc will be updated with
+				//the data returned from the server
+
+				$scope.bookmarks.shift();
+				$scope.bookmarks.unshift(data);
+			});
+		}else{
+			bookmark.$update();
+		}
+	};
+
 
 }]);
